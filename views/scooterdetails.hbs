@@ -1,13 +1,16 @@
-<form action="/signup" method="POST">
-
-  <label>Email</label>
-  <input name="email" type="email" placeholder="Enter your email">
-  <label> Username</label>
-  <input name="username" type="text" placeholder="Enter your name">
-  <label>Password</label>
-  <input name="password" type="password" placeholder="Enter your Password">
-  <div class="select-city-container">
+<form action="/scooterdetails" method="POST">
+{{#each username}}
+  {{this.user._id}}
+ <div class="select-city-container">
     
+    <select>
+      <option> Choose your slot </option>
+      <option> 1 Hour </option>
+      <option> 4 Hours </option>
+      <option> 8 Hours </option>
+      <option> 1 Day </option>
+
+    </select>
     <select>
       <option> Choose your city </option>
       <option> Amsterdam </option>

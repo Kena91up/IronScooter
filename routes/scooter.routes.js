@@ -6,13 +6,11 @@ const RentRequest = require('../models/RentRequest.model')
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
-
 /* GET login page */
 router.get("/login", (req, res, next) => {
   res.render('auth/login.hbs')
 });
-
-// Handle POST requests to /signin
+// Handle POST requests to /login
 router.post("/login", (req, res, next) => {
   const {username, password} = req.body
  

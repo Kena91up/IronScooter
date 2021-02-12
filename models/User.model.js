@@ -6,7 +6,14 @@ const userSchema = new Schema({
     type: String,
     unique: true
   },
-  password: String
+  email: {
+    type: String,
+    unique: true
+  },
+  password: String,
+  city: String, 
+  owner: String, 
+  Rider: String
 });
 
 const User = model("User", userSchema);

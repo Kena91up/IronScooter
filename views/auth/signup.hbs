@@ -1,0 +1,32 @@
+<form action="/signup" method="POST">
+
+  <label>Email</label>
+  <input name="email" type="email" placeholder="Enter your email">
+  <label> Username</label>
+  <input name="name" type="text" placeholder="Enter your name">
+  <label>Password</label>
+  <input name="password" type="password" placeholder="Enter your Password">
+  <button type="submit">Sign Up</button>
+
+  <div class="select-city-container">
+    <label> City </label>
+    <select>
+      <option> Amsterdam </option>
+      <option> Berlin </option>
+      <option> Lisbon </option>
+      <option> Madrid </option>
+      <option> Paris </option>
+    </select>
+  </div>
+  <input type="checkbox" name = 'rider' value = 'rider'>
+  <label for = 'rider'> Rider </label>
+  <input type="checkbox" name = 'company' value = 'company'>
+  <label for = 'company'> Company </label>
+
+</form>
+
+{{!-- Conditionally render the msg --}}
+{{#if msg}}
+<div class="error">{{msg}}</div>
+{{/if}}
+

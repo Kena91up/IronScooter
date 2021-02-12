@@ -1,0 +1,17 @@
+{{#if username}}
+    <h2>Welcome, {{ username.username }}!</h2>
+    <p>Welcome {{this.username}}!!!</p>
+    {{!-- <ul>
+       <li id="to-right">
+                  <a href="/logout">Logout</a> <span> | </span>
+            </li>
+    </ul> --}}
+    <button>
+        <a href="/Profile">Reload the page</a>
+    </button>
+     <button>
+        <a href="/Bookride">Book a Ride</a>
+    </button>
+{{else}}
+    <p>Still no logged in user, sorry!</p>
+{{/if}}

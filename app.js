@@ -22,11 +22,15 @@ require("./config")(app);
 const projectName = "IRONSCOOTER";
 const capitalized = (string) => string[0].toUpperCase() + string.slice(1).toLowerCase();
 
-app.locals.title = `${capitalized(projectName)}- Generated with IronGenerator`;
+app.locals.title = `${capitalized(projectName)}`;
 
 // 👇 Start handling routes here
 const index = require("./routes/index");
 app.use("/", index);
+
+//link your auth routes here
+const scooterRoutes = require("./routes/scooter.routes.js");
+app.use("/", scooterRoutes);
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);

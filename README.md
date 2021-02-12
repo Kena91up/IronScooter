@@ -98,7 +98,6 @@ Render a page to give feedback.
 When successful the user is redirected to /home page.
 # POST/feedback
 Form with a text section for a feedback text field.
-g
 
 
 

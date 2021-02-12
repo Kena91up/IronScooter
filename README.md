@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # IronScooter
 IronScooter
 
@@ -103,3 +104,5 @@ Form with a text section for a feedback text field.
 
 
 
+=======
+>>>>>>> origin/viktoria-code

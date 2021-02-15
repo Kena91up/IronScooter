@@ -1,8 +1,13 @@
 const express = require("express");
 const router = require("express").Router();
+
+//to require all the models
+
 const User = require("../models/User.model");
 const Scooter = require("../models/Scooter.model");
 const RentRequest = require("../models/RentRequest.model");
+const FeedbackModel = require("../models/Feedback.model");
+
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
@@ -105,17 +110,15 @@ router.get("/profile", (req, res, next) => {
 router.get("/feedback", (req, res, next) => {
   res.render("feedback.hbs");
 });
-//create a new collection in mongodb
 
 router.post("/feedback", (req, res, next) => {
-  const FeedbackModel = mongoose.model('Feedback', { text: String, email: String });
-  const { email, text } = req.body
-  FeedbackModel.create({text, email})
+  const { name, text } = req.body
+  FeedbackModel.create({name, text})
   .then(() => {
       res.redirect("/");
     })
     .catch(() => {
-      res.render("feedback.hbs", { msg: "Please enter again both the fields" });
+      res.render("feedback.hbs", { msg: "Something wrong happened when sending the feedback, please fill it in again" });
     });
 });
 

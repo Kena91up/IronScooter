@@ -1,18 +1,10 @@
 const express = require("express");
 const router = require("express").Router();
-<<<<<<< HEAD
-const User = require('../models/User.model')
-const Scooter = require('../models/Scooter.model')
-const RentRequest = require('../models/RentRequest.model')
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-=======
 const User = require("../models/User.model");
 const Scooter = require("../models/Scooter.model");
 const RentRequest = require("../models/RentRequest.model");
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
->>>>>>> origin/viktoria-code
 
 /* GET login page */
 router.get("/login", (req, res, next) => {
@@ -52,7 +44,7 @@ router.get("/signup", (req, res, next) => {
 //POST request to handle sign up
 router.post("/signup", (req, res, next) => {
   console.log(req.body);
-  const { username, email, password } = req.body;
+  const { username, email, password, rider, owner, city } = req.body;
 
   //to check if the user has entered all three fields
   if (!username || !email || !password) {
@@ -80,7 +72,9 @@ router.post("/signup", (req, res, next) => {
   //to encrypt the password
   let salt = bcrypt.genSaltSync(10);
   let hash = bcrypt.hashSync(password, salt);
-  User.create({ username, email, password: hash })
+
+  //creating a user to mongodb
+  User.create({ username, email, password: hash, rider, owner, city })
     .then(() => {
       res.redirect("/");
     })
@@ -105,6 +99,25 @@ router.get("/profile", (req, res, next) => {
 //    let username = req.session.userName.username
 //    res.render('profile.hbs', {username})
 //  })
+
+//GET and POST request to handle the feedback section//
+
+router.get("/feedback", (req, res, next) => {
+  res.render("feedback.hbs");
+});
+//create a new collection in mongodb
+
+router.post("/feedback", (req, res, next) => {
+  const FeedbackModel = mongoose.model('Feedback', { text: String, email: String });
+  const { email, text } = req.body
+  FeedbackModel.create({text, email})
+  .then(() => {
+      res.redirect("/");
+    })
+    .catch(() => {
+      res.render("feedback.hbs", { msg: "Please enter again both the fields" });
+    });
+});
 
 router.get("/logout", (req, res) => {
   req.session.destroy();

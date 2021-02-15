@@ -12,8 +12,8 @@ const userSchema = new Schema({
   },
   password: String,
   city: String, 
-  owner: String, 
-  Rider: String
+  owner: Boolean, 
+  rider: Boolean
 });
 
 const User = model("User", userSchema);

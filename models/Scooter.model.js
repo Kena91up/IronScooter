@@ -6,23 +6,18 @@ const scooterSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User'
   },
-  email: {
-    type: String,
-    unique: true
-  },
-  BrandName: String, 
+  brandName: String, 
   maxSpeed: Number, 
   maxRange: Number, 
   modelYear: Number,
   maxLoadCapacity: Number,
+  image: String,
   timeSlot:{
     type: Number, 
-    required: true,
     isAvailable: Boolean
   },   
   city:{
     type: String, 
-    required: true,
     isAvailable: String
   },
   rentRequest: {

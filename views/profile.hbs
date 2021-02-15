@@ -1,17 +1,19 @@
-{{#if username}}
-    <h2>Welcome, {{ username.username }}!</h2>
-    <p>Welcome {{this.username}}!!!</p>
-    {{!-- <ul>
+{{#each email}}
+    <h2>Welcome, {{ email.email }}!</h2>
+    {{!-- <p>Welcome {{this.email}}!!!</p> --}}
+    <ul>
        <li id="to-right">
                   <a href="/logout">Logout</a> <span> | </span>
             </li>
-    </ul> --}}
+    </ul>
+     <a href="/scooters">Scooters</a>
+    <a href="/scooters/create-scooters">Create Scooters</a>
     <button>
         <a href="/Profile">Reload the page</a>
     </button>
      <button>
         <a href="/Bookride">Book a Ride</a>
     </button>
-{{else}}
-    <p>Still no logged in user, sorry!</p>
-{{/if}}
+{{!-- {{else}}
+    <p>Still no logged in user, sorry!</p> --}}
+{{/each}}

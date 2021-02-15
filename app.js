@@ -51,6 +51,16 @@ app.use("/", index);
 const scooterRoutes = require("./routes/scooter.routes.js");
 app.use("/", scooterRoutes);
 
+
+
+
+//404
+// app.all('*', (req, res) => {
+//   res.status(404);
+//   res.send('404 Not Found');
+//   res.end();
+// });
+
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
 

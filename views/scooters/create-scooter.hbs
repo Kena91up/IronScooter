@@ -1,0 +1,31 @@
+<form action="/scooters/create-scooter" method="POST">
+{{!-- {{#each username}}
+  {{this.user._id}} --}}
+  <div  role="alert">
+   <h1> Fill the form to add your E-Scooter .</h1>
+  </div>
+  <label>Brand Name:</label>
+  <input name="sbrandname" type="text">
+  <label> Max. Speed:</label>
+  <input name="smaxspeed" type="number" placeholder="Km/h">
+  <label>Max. Range:</label>
+  <input name="smaxrange" type="number" placeholder="Km">
+  <label>Model Year:</label>
+  <input name="smodelyear" type="number">
+  <label>Max. LoadCapacity:</label>
+  <input name="smaxloadcapacity" type="number" placeholder="KG">
+  <div class="col">
+        <label for="photo">Upload Photo (JPG or PNG format only):</label>
+        <input type="file" name="simg" class="form-control-file" autocomplete="off">
+      </div> 
+       <button type="submit" class="btn btn-primary">ADD THIS SCOOTER</button>
+  </form>
+{{!-- {{/each}}
+{{!-- Conditionally render the msg --}}
+{{#if msg}}
+<div class="error">{{msg}}</div>
+{{/if}} --}}
+
+{{!-- {{#if dataAdded}}
+<p> Data was added successfully</p>
+{{/if}} --}}

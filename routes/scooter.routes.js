@@ -215,9 +215,7 @@ router.get('/scooters/:id',(req, res) => {
 // });
 
 
-<<<<<<< HEAD
 //Logout
-=======
 //GET and POST request to handle the feedback section//
 
 router.get("/feedback", (req, res, next) => {
@@ -235,7 +233,6 @@ router.post("/feedback", (req, res, next) => {
     });
 });
 
->>>>>>> origin/viktoria-code
 router.get("/logout", (req, res) => {
   req.session.destroy();
   res.redirect("/");

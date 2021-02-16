@@ -178,6 +178,7 @@ router.post('/scooters/:_id/edit', (req, res, next) => {
 
 router.post('/scooters/:_id/delete', (req, res, next) => {
   
+<<<<<<< HEAD
   let id = req.params.id
   Scooter.findByIdAndDelete(id)
       .then(() => {
@@ -187,6 +188,17 @@ router.post('/scooters/:_id/delete', (req, res, next) => {
           console.log('Delete failed')
       })
 });
+=======
+//   let id = req.params.id
+//   Scooter.findByIdAndDelete(id)
+//       .then(() => {
+//           res.redirect('/scooters')
+//       })
+//       .catch(() => {
+//           console.log('Delete failed')
+//       })
+// });
+>>>>>>> origin/viktoria-code
 
 
 //Logout

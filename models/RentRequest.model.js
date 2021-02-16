@@ -10,13 +10,21 @@ const RentReqSchema = new Schema({
   type: Schema.Types.ObjectId,
   ref: 'Scooter'
  },
+ city: {
+   type: String,
+   required: true
+ },
   date: { 
     type: Date, 
     required: true 
   },
-  TimeSlot:{
+  timeSlot:{
     type: Number, 
     required: true,
+  },
+  status: {
+    type: String,
+    enum: ["pending", "accepted", "rejected"]
   }
 });
 

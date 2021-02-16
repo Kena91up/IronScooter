@@ -1,0 +1,34 @@
+<h2> Book your ride </h2>
+<form method="POST" action='/booking-request'>
+
+  <div class="slot-form-container">
+    <label> Select the date </label>
+    <input type="date">
+  </div>
+  <div class="slot-form-container">
+    <label> Select the time slot </label>
+    <select>
+      <option value="hour"> 1 hour </option>
+      <option value="four-fours"> 4 hours </option>
+      <option value="eight-hours"> 8 hours </option>
+      <option value="full-day"> Full day </option>
+    </select>
+  </div>
+  <div class="slot-form-container">
+    <label> Select the city </label>
+    <select>
+      <option> Amsterdam </option>
+      <option> Berlin </option>
+      <option> Lisbon </option>
+      <option> Madrid </option>
+      <option> Paris </option>
+    </select>
+  </div>
+  <div class="slot-form-container">
+    <button type="submit"> Make a request </button>
+  </div>
+</form>
+
+{{#if msg}}
+ <div class="error">{{msg}}</div>
+{{/if}}

@@ -6,7 +6,7 @@ h1 {
   color: 15px; }
 
   body {
-    padding: 50px;
+    padding: 30px;
     font: 14px 'Lucida Grande', Helvetica, Arial, sans-serif;
   }
   
@@ -77,9 +77,11 @@ h1 {
   }
   
   ul li {
-    line-height: 20px;
+    line-height: 50px;
   }
-  
+   .list{
+    justify-self: space-between;
+   }
   #to-right {
     padding: 1em;
     float: right;

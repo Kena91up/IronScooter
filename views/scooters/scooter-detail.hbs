@@ -1,0 +1,15 @@
+
+<h2>Available Scooters</h2>
+{{#each scooter}}
+<h4>{{this.brandName}}</h4>
+<h4>{{this.maxSpeed}}</h4>
+<h4>{{this.maxRange}}</h4>
+<h4>{{this.modelYear}}</h4>
+<h4>{{this.maxLoadCapacity}}</h4>
+<img src="/images/{{this.maxLoadCapacity}}" alt="" width="200" height="300" >
+<a href="/scooters/{{_id }}/edit">
+    <button>Edit</button>
+</a>
+<form method="POST" action="/scooters/{{_id}}/delete"><button>Delete</button></form>
+</a>
+{{/each}}

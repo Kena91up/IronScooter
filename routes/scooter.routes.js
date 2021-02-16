@@ -80,7 +80,7 @@ router.post("/signup", (req, res, next) => {
   //creating a user to mongodb
   User.create({ username, email, password: hash, rider, owner, city })
     .then(() => {
-      res.redirect("/login");
+      res.redirect("/profile");
     })
     .catch((err) => {
       next(err);
@@ -96,112 +96,98 @@ const checkUserName = (req, res, next) => {
   }
 };
 
-router.get("/profile", checkUserName, (req, res, next) => {
-  let email = req.session.loggedInEmail.email;
-  res.render("profile.hbs", { email });
-});
+ router.get('/profile', checkUserName, (req, res, next) => {
+   let email = req.session.loggedInEmail.email
+   res.render('profile.hbs', {email})
+ })
+
+
 
 //ScooterdetailsInformation
 
-router.get("/scooters", (req, res, next) => {
+router.get('/scooters', (req, res, next) => {
+ 
   Scooter.find()
+  .then((scooter) => {
+    res.render('scooters/showlist',{scooter})
+  })
+  .catch((error) => {
+    console.log(error)
+  })
+});
+
+router.get('/scooters/create-scooter', (req, res, next) => {
+  res.render('scooters/create-scooter.hbs')
+});
+
+router.post('/scooters/create-scooter',(req, res, next) =>{
+  let id = req.params.id
+  const {sbrandname, smaxspeed, smaxrange, smodelyear, smaxloadcapacity, simg , user} = req.body
+    let newScooter = {
+      brandName : sbrandname,
+      maxSpeed : smaxspeed,
+      maxRange : smaxrange,
+      modelYear : smodelyear,
+      maxLoadCapacity : smaxloadcapacity,
+      image : simg,
+      user : req.session.loggedInEmail._id
+    }
+    Scooter.create(newScooter)
     .then(() => {
-      res.render("scooters/showlist.hbs");
+      res.redirect('/scooters' )
     })
     .catch((error) => {
       console.log(error);
     });
 });
 
-router.get("/scooters/create-scooter", (req, res, next) => {
-  res.render("scooters/create-scooter.hbs");
-});
 
-router.post("/scooters/create-scooter", (req, res, next) => {
-  const {
-    sbrandname,
-    smaxspeed,
-    smaxrange,
-    smodelyear,
-    smaxloadcapacity,
-    simg,
-  } = req.body;
-  let newScooter = {
-    brandName: sbrandname,
-    maxSpeed: smaxspeed,
-    maxRange: smaxrange,
-    modelYear: smodelyear,
-    maxLoadCapacity: smaxloadcapacity,
-    image: simg,
-    // user:req.session.userName._id
-  };
-  Scooter.create(newScooter)
-    .then(() => {
-      res.redirect("create-scooter.hbs");
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-});
-
-router.get("/scooters/:id", (req, res) => {
-  let id = req.params.id;
+router.get('/scooters/:id/edit', (req, res, next) => {
+  
+  let id = req.params.id
 
   Scooter.findById(id)
-    .then((newScooter) => {
-      res.render("scooterslist.hbs", { newScooter });
-    })
-    .catch(() => {
-      console.log("something goes wrong while finding id");
-    });
+  .then((scooter) => {
+      res.render('/scooters/scooter-update', {scooter})
+  })
+  .catch((error) => {
+      console.log(error)
+  })
 });
 
-// router.get('/scooters/:id/edit', (req, res, next) => {
+router.post('/scooters/:_id/edit', (req, res, next) => {
+  let id = req.params._id
+  const {sbrandname, smaxspeed, smaxrange, smodelyear, smaxloadcapacity, simg} = req.body
+    let editedScooter = {
+      brandName : sbrandname,
+      maxSpeed : smaxspeed,
+      maxRange : smaxrange,
+      modelYear : smodelyear,
+      maxLoadCapacity : smaxloadcapacity,
+      image : simg,
+      user : req.session.loggedInEmail._id
+     
+    }
+   Scooter.findByIdAndUpdate(id, editedScooter, {new: true})
+    .then(() => {
+        res.redirect('/scooters')
+    })
+    .catch(() => {
+        console.log('Edit failed')
+    })
+});
 
-//   let id = req.params.id
-
-//   Scooter.findById(id)
-//   .then((Scooter) => {
-//       res.render('scooterlist.hbs', {Scooter})
-//   })
-//   .catch((error) => {
-//       console.log(error)
-//   })
-// });
-
-// router.post('/scooters/:id/edit', (req, res, next) => {
-//   let id = req.params.id
-
-//   const{sbrandname, smaxspeed, smaxrange, smodelyear, smaxloadcapacity, simg} = req.body
-//     let newScooter = {
-//       brandName : sbrandname,
-//       maxSpeed : smaxspeed,
-//       maxRange : smaxrange,
-//       modelYear : smodelyear,
-//       maxLoadCapacity : smaxloadcapacity,
-//       image : simg
-
-//     }
-//    Scooter.findByIdAndUpdate(id, editedScooter, {new: true})
-//     .then(() => {
-//         res.redirect('/scooters')
-//     })
-//     .catch(() => {
-//         console.log('Edit failed')
-//     })
-// });
-
-// router.post('/scooters/:id/delete', (req, res, next) => {
-
-//   let id = req.params.id
-//   Scooter.findByIdAndDelete(id)
-//       .then(() => {
-//           res.redirect('/scooters')
-//       })
-//       .catch(() => {
-//           console.log('Delete failed')
-//       })
-// });
+router.post('/scooters/:_id/delete', (req, res, next) => {
+  
+  let id = req.params.id
+  Scooter.findByIdAndDelete(id)
+      .then(() => {
+          res.redirect('/scooters')
+      })
+      .catch(() => {
+          console.log('Delete failed')
+      })
+});
 
 //GET and POST request to handle the feedback section//
 

@@ -1,19 +1,16 @@
-{{#each email}}
-    <h2>Welcome, {{ email.email }}!</h2>
-    {{!-- <p>Welcome {{this.email}}!!!</p> --}}
+
+    <h2>Welcome, {{ email }}!!!</h2>
     <ul>
        <li id="to-right">
-                  <a href="/logout">Logout</a> <span> | </span>
-            </li>
+        <a href="/logout">Logout</a> <span> | </span>
+     </li>
     </ul>
-     <a href="/scooters">Scooters</a>
-    <a href="/scooters/create-scooters">Create Scooters</a>
+    <a href="/scooters">Scooters</a>
+    <a href="/scooters/create-scooter">Create Scooter</a>
+    {{!-- <a href="/scooters/scooter-update">Upadating Scooter</a> --}}
     <button>
         <a href="/Profile">Reload the page</a>
     </button>
-     <button>
-        <a href="/Bookride">Book a Ride</a>
-    </button>
+     
 {{!-- {{else}}
     <p>Still no logged in user, sorry!</p> --}}
-{{/each}}

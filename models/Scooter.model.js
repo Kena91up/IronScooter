@@ -14,10 +14,12 @@ const scooterSchema = new Schema({
   image: String,
   timeSlot:{
     type: Number, 
+   
     isAvailable: Boolean
   },   
   city:{
     type: String, 
+   
     isAvailable: String
   },
   rentRequest: {

@@ -3,19 +3,10 @@ const router = require("express").Router();
 const User = require('../models/User.model')
 const Scooter = require('../models/Scooter.model')
 const RentRequest = require('../models/RentRequest.model')
+const FeedbackModel = require("../models/Feedback.model");
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
-
-//to require all the models
-
-const User = require("../models/User.model");
-const Scooter = require("../models/Scooter.model");
-const RentRequest = require("../models/RentRequest.model");
-const FeedbackModel = require("../models/Feedback.model");
-
-const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
 
 /* GET login page */
 router.get("/login", (req, res, next) => {
@@ -31,7 +22,7 @@ router.post("/login", (req, res, next) => {
       if (result) {
         bcrypt.compare(password, result.password).then((isMatching) => {
           if (isMatching) {
-            req.session.email = result;
+            req.session.loggedInEmail = result;
             res.redirect("/profile");
           } else {
             res.render("auth/login.hbs", { msg: "Password does not match" });
@@ -87,7 +78,7 @@ router.post("/signup", (req, res, next) => {
   //creating a user to mongodb
   User.create({ username, email, password: hash, rider, owner, city })
     .then(() => {
-      res.redirect("/login");
+      res.redirect("/profile");
     })
     .catch((err) => {
       next(err);
@@ -96,18 +87,15 @@ router.post("/signup", (req, res, next) => {
 
 //Middleware to protect routes
 const checkUserName = (req, res, next) => {
-  if (req.session.email) {
+  if (req.session.loggedInEmail) {
     next();
   } else {
-    res.redirect("/profile");
+    res.redirect("/login");
   }
 };
 
-router.get("/profile", (req, res, next) => {
-  res.render("profile.hbs");
-});
  router.get('/profile', checkUserName, (req, res, next) => {
-   let email = req.session.email.email
+   let email = req.session.loggedInEmail.email
    res.render('profile.hbs', {email})
  })
 
@@ -115,28 +103,24 @@ router.get("/profile", (req, res, next) => {
 
 //ScooterdetailsInformation
 
-router.get("/create-scooter", (req, res, next) => {
-  res.render("/scooters/create-scooter.hbs");
-});
-
-
-// router.get('/scooters', (req, res, next) => {
+router.get('/scooters', (req, res, next) => {
  
-//   Scooter.find()
-//   .then((scooterlist) => {
-//     res.render('scooters/scooterslist.hbs', {Scooter})
-//   })
-//   .catch((error) => {
-//     console.log(error)
-//   })
-// });
+  Scooter.find()
+  .then((scooter) => {
+    res.render('scooters/showlist',{scooter})
+  })
+  .catch((error) => {
+    console.log(error)
+  })
+});
 
 router.get('/scooters/create-scooter', (req, res, next) => {
   res.render('scooters/create-scooter.hbs')
 });
 
 router.post('/scooters/create-scooter',(req, res, next) =>{
-  const {sbrandname, smaxspeed, smaxrange, smodelyear, smaxloadcapacity,simg} = req.body
+  let id = req.params.id
+  const {sbrandname, smaxspeed, smaxrange, smodelyear, smaxloadcapacity, simg , user} = req.body
     let newScooter = {
       brandName : sbrandname,
       maxSpeed : smaxspeed,
@@ -144,80 +128,68 @@ router.post('/scooters/create-scooter',(req, res, next) =>{
       modelYear : smodelyear,
       maxLoadCapacity : smaxloadcapacity,
       image : simg,
-      // user:req.session.userName._id
+      user : req.session.loggedInEmail._id
     }
     Scooter.create(newScooter)
     .then(() => {
-      res.redirect('create-scooter.hbs' )
+      res.redirect('/scooters' )
     })
     .catch((error) => {
       console.log(error)
     })
 })
 
-router.get('/scooters/:id',(req, res) => {
+
+router.get('/scooters/:id/edit', (req, res, next) => {
+  
   let id = req.params.id
 
   Scooter.findById(id)
-  .then((newScooter) => {
-    res.render('scooterslist.hbs',{newScooter})
+  .then((scooter) => {
+      res.render('/scooters/scooter-update', {scooter})
   })
-  .catch(() => {
-       console.log('something goes wrong while finding id')
+  .catch((error) => {
+      console.log(error)
   })
-})
+});
 
-// router.get('/scooters/:id/edit', (req, res, next) => {
-  
-//   let id = req.params.id
+router.post('/scooters/:_id/edit', (req, res, next) => {
+  let id = req.params._id
 
-//   Scooter.findById(id)
-//   .then((Scooter) => {
-//       res.render('scooterlist.hbs', {Scooter})
-//   })
-//   .catch((error) => {
-//       console.log(error)
-//   })
-// });
-
-// router.post('/scooters/:id/edit', (req, res, next) => {
-//   let id = req.params.id
-
-//   const{sbrandname, smaxspeed, smaxrange, smodelyear, smaxloadcapacity, simg} = req.body
-//     let newScooter = {
-//       brandName : sbrandname,
-//       maxSpeed : smaxspeed,
-//       maxRange : smaxrange,
-//       modelYear : smodelyear,
-//       maxLoadCapacity : smaxloadcapacity,
-//       image : simg
+  const {sbrandname, smaxspeed, smaxrange, smodelyear, smaxloadcapacity, simg} = req.body
+    let editedScooter = {
+      brandName : sbrandname,
+      maxSpeed : smaxspeed,
+      maxRange : smaxrange,
+      modelYear : smodelyear,
+      maxLoadCapacity : smaxloadcapacity,
+      image : simg,
+      user : req.session.loggedInEmail._id
      
-//     }
-//    Scooter.findByIdAndUpdate(id, editedScooter, {new: true})
-//     .then(() => {
-//         res.redirect('/scooters')
-//     })
-//     .catch(() => {
-//         console.log('Edit failed')
-//     })
-// });
+    }
+   Scooter.findByIdAndUpdate(id, editedScooter, {new: true})
+    .then(() => {
+        res.redirect('/scooters')
+    })
+    .catch(() => {
+        console.log('Edit failed')
+    })
+});
 
-// router.post('/scooters/:id/delete', (req, res, next) => {
+router.post('/scooters/:_id/delete', (req, res, next) => {
   
-//   let id = req.params.id
-//   Scooter.findByIdAndDelete(id)
-//       .then(() => {
-//           res.redirect('/scooters')
-//       })
-//       .catch(() => {
-//           console.log('Delete failed')
-//       })
-// });
+  let id = req.params.id
+  Scooter.findByIdAndDelete(id)
+      .then(() => {
+          res.redirect('/scooters')
+      })
+      .catch(() => {
+          console.log('Delete failed')
+      })
+});
 
 
-<<<<<<< HEAD
 //Logout
-=======
 //GET and POST request to handle the feedback section//
 
 router.get("/feedback", (req, res, next) => {
@@ -235,7 +207,6 @@ router.post("/feedback", (req, res, next) => {
     });
 });
 
->>>>>>> origin/viktoria-code
 router.get("/logout", (req, res) => {
   req.session.destroy();
   res.redirect("/");

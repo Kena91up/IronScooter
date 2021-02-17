@@ -24,6 +24,8 @@ const capitalized = (string) => string[0].toUpperCase() + string.slice(1).toLowe
 
 app.locals.title = `${capitalized(projectName)}`;
 
+app.locals.showFeedback = false
+
 //set uo connect-mongo
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);

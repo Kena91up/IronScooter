@@ -106,4 +106,9 @@ h1 {
     font-weight: bold;
     font-size: 2em;
   }
+
+  .navbar-brand {
+    margin-top: -10%;
+    padding: 0%;
+  }
   

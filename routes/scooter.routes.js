@@ -148,7 +148,7 @@ router.get('/scooters/:id/edit', (req, res, next) => {
 
   Scooter.findById(id)
   .then((scooter) => {
-      res.render('/scooters/scooter-update', {scooter})
+      res.render('scooters/scooter-update', {scooter})
   })
   .catch((error) => {
       console.log(error)
@@ -177,7 +177,7 @@ router.post('/scooters/:_id/edit', (req, res, next) => {
     })
 });
 
-router.post('/scooters/:_id/delete', (req, res, next) => {
+router.post('/scooters/:id/delete', (req, res, next) => {
   
   let id = req.params.id
   Scooter.findByIdAndDelete(id)

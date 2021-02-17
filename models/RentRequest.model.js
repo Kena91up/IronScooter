@@ -12,15 +12,12 @@ const RentReqSchema = new Schema({
  },
  city: {
    type: String,
-   required: true
  },
   date: { 
-    type: Date, 
-    required: true 
+    type: Date,  
   },
   timeSlot:{
     type: Number, 
-    required: true,
   },
   status: {
     type: String,

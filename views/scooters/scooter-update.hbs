@@ -2,27 +2,27 @@
 
 <h2>Update the Scooter</h2>
 
-<form method="POST" action="/scooters/{{_id}}/edit">
+<form method="POST" action="/scooters/{{scooter._id}}/edit">
   
     <label >Brand Name:</label>
-    <input value="{{this.brandName}}" name="sbrandname" type="text" >
+    <input value="{{scooter.brandName}}" name="sbrandname" type="text" >
 
     <label >Max. Speed:</label>
-    <input value="{{this.maxSpeed}}" name="smaxspeed" type="number" >
+    <input value="{{scooter.maxSpeed}}" name="smaxspeed" type="number" >
   
     <label >Max. Range:</label>
-    <input value="{{this.maxRange}}" name="smaxrange" type="number" >
+    <input value="{{scooter.maxRange}}" name="smaxrange" type="number" >
  
     <label >Model Year:</label>
-    <input value="{{this.modelYear}}" name="smodelyear" type="number" >
+    <input value="{{scooter.modelYear}}" name="smodelyear" type="number" >
  
     <label >Max.LoadCapacity:</label>
-    <input value="{{this.maxloadcapacity}}" name="smaxloadcapacity" type="number">
+    <input value="{{scooter.maxloadcapacity}}" name="smaxloadcapacity" type="number">
  
     <label for="photo" class="form-label">Picture:</label>
-    <input value="{{this.img}}" name="simg" type="file" class="form-control" id="example5">
+    <input value="{{scooter.img}}" name="simg" type="file" class="form-control" id="example5">
  
 
-  <button type="submit" class="btn btn-primary">Edit Scooter</button>
+  <button type="submit" class="btn-secondary">Edit Scooter</button>
 </form> 
 

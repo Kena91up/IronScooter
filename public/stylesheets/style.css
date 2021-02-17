@@ -70,6 +70,7 @@ button:hover {
     transition: 0.3s ease background;
   }
   .list {
+    height: 100%;
     display: flex;
     justify-content: space-evenly;
     flex-direction: column;
@@ -110,9 +111,7 @@ button:hover {
   ul li {
     line-height: 50px;
   }
-   .list{
-    justify-self: space-between;
-   }
+
   #to-right {
     padding: 1em;
     float: right;
@@ -142,7 +141,7 @@ button:hover {
   overflow: hiden;
   height: 400px;
   width: 400px;
-
+  animation: slide_animation 10s linear;
 }
 @-webkit-keyframes slide_animation{
   0% {left:0px;}
@@ -180,5 +179,16 @@ button:hover {
   .navbar-brand {
     margin-top: -10%;
     padding: 0%;
+  }
+
+  .scooterList {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .editbtn{
+    position: relative;
+    float: right;
+    margin-right: 500px;
+    margin-top: -300px;
   }
   

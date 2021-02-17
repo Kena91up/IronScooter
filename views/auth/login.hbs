@@ -1,19 +1,10 @@
-<h2>Log In</h2>
+<h2>Login</h2>
 <form action="/login" method="POST">
   <label>Email</label>
   <input name="email" type="text"  placeholder="Enter your Email"  >
-
   <label>Password</label>
   <input  type="password" name="password" placeholder="Enter your Password"  >
-  
-   {{!-- <input type="checkbox" id="rider" name="rider" value="rider">
-   <label for="rider"> Rider</label><br>
-   <input type="checkbox" id="owner" name="owner" value="owner">
-   <label for="owner"> Owner</label><br> --}}
-
   <button type="submit"  class="btn-secondary">Log In</button>
-
-
 </form>
 {{!-- Conditionally render the msg --}}
 {{#if msg}}

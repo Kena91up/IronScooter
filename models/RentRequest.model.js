@@ -18,6 +18,7 @@ const RentReqSchema = new Schema({
   },
   timeSlot:{
     type: Number, 
+    require: true
   },
   status: {
     type: String,

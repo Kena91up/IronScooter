@@ -14,28 +14,23 @@
 
 <body>
    <nav>
-      <a class="navbar-brand" href="/"><img src="/images/logo.png" alt = "Logo" height="200px" width="200px"></a>
+      <a class="navbar-brand" href="/"><img src="/images/Logo1.png" alt="" height="160px" width="160px"
+            class="logo"></a>
       <ul>
-
-         {{!-- <li id="to-right">
-                  <a href="/logout">Logout</a> <span> | </span>
-            </li> --}}
-          {{#if showFeedback}}  
+         {{#if showFeedback}}
          <li id="to-right">
-            <a href="/feedback"> Feedback </a> <span> | </span>
+            <a href="/feedback" class="btn-secondary"> Feedback </a> <span> | </span>
          </li>
          {{/if}}
          <li id="to-right">
-            <a href="/login">Log In</a> <span> | </span>
+            <a href="/login" class="btn-secondary">Log In</a> <span> | </span>
          </li>
          <li id="to-right">
-            <a href="/signup">Sign Up</a> <span> | </span>
+            <a href="/signup" class="btn-secondary">Sign Up</a> <span> | </span>
          </li>
       </ul>
    </nav>
-
    {{{body}}}
-
    <script src="/js/script.js"></script>
 </body>
 

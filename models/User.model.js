@@ -10,8 +10,7 @@ const userSchema = new Schema({
   },
   password: String,
   city: String, 
-  owner: Boolean, 
-  rider: Boolean
+  role: String
 });
 
 const User = model("User", userSchema);

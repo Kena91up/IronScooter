@@ -16,8 +16,14 @@ const RentReqSchema = new Schema({
   date: { 
     type: Date,  
   },
+<<<<<<< HEAD
   timeSlot:{
     type: Number, 
+=======
+  timeSlot: {
+    type: String, 
+    required: true,
+>>>>>>> origin/viktoria-code
   },
   status: {
     type: String,

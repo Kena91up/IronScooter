@@ -1,3 +1,4 @@
+<h2>Sign Up</h2>
 <form action="/signup" method="POST">
 
   <label>Email</label>
@@ -8,8 +9,8 @@
   <input name="password" type="password" placeholder="Enter your Password">
   <div class="select-city-container">
     
+    <label> Select your city </label>
     <select name="city">
-      <option> Choose your city </option>
       <option> Amsterdam </option>
       <option> Berlin </option>
       <option> Lisbon </option>
@@ -17,11 +18,20 @@
       <option> Paris </option>
     </select>
   </div>
-  <input type="checkbox" name = 'rider' value = 'true'>
-  <label for = 'rider'> Rider </label>
-  <input type="checkbox" name = 'company' value = 'true'>
-  <label for = 'company'> Company </label>
-  <button type="submit" class="btn-secondary">Sign Up</button>
+  <br>
+  <div class "roles">
+  <label> Select "Rider" if you want to rent a scooter </label>
+   <label> Select "Company" if you want to offer your scooter</label>
+  <select name = "role">
+    <option value = "rider"> Rider </option>
+    <option value = "company"> Company </option>
+  </select>
+  </div>
+  <br>
+  {{!-- <input type="checkbox" name = 'rider' value = 'true'>
+  <label for = 'rider'> Only check if a rider </label> --}}
+  
+  <button type="submit">Sign Up</button>
 </form>
 
 

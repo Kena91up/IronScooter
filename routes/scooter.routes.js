@@ -16,7 +16,7 @@ router.get("/login", (req, res, next) => {
 });
 // Handle POST requests to /login
 router.post("/login", (req, res, next) => {
-  const { email, password } = req.body;
+  const { email, password} = req.body;
 
   User.findOne({ email })
     .then((result) => {
@@ -25,7 +25,13 @@ router.post("/login", (req, res, next) => {
         bcrypt.compare(password, result.password).then((isMatching) => {
           if (isMatching) {
             req.session.loggedInEmail = result;
-            res.redirect("/profile");
+            let role = result.role
+            res.locals.showFeedback = true
+            if (role === "company") {
+              res.redirect("/company-profile");
+            } else {
+              res.redirect("/rider-profile");
+            }
           } else {
             res.render("auth/login.hbs", { msg: "Password does not match" });
           }
@@ -38,7 +44,12 @@ router.post("/login", (req, res, next) => {
       next(err);
     });
 });
-//GET request to handle profile
+//GET request to handle  company profile
+
+router.get("/company-profile", (req, res, next) => {
+  res.locals.showFeedback = true
+  res.render("scooters/company-profile");
+});
 
 //GET signup page
 router.get("/signup", (req, res, next) => {
@@ -48,7 +59,7 @@ router.get("/signup", (req, res, next) => {
 //POST request to handle sign up
 router.post("/signup", (req, res, next) => {
   console.log(req.body);
-  const { username, email, password, rider, owner, city } = req.body;
+  const { username, email, password, role, city } = req.body;
 
   //to check if the user has entered all three fields
   if (!username || !email || !password || !city) {
@@ -78,9 +89,14 @@ router.post("/signup", (req, res, next) => {
   let hash = bcrypt.hashSync(password, salt);
 
   //creating a user to mongodb
-  User.create({ username, email, password: hash, rider, owner, city })
+  User.create({ username, email, password: hash, role, city })
+
     .then(() => {
-      res.redirect("/profile");
+      if (role === "company") {
+        res.redirect("/company-profile");
+      } else {
+        res.redirect("/rider-profile");
+      }
     })
     .catch((err) => {
       next(err);
@@ -96,55 +112,58 @@ const checkUserName = (req, res, next) => {
   }
 };
 
- router.get('/profile', checkUserName, (req, res, next) => {
-   let email = req.session.loggedInEmail.email
-   res.render('profile.hbs', {email})
- })
-
-
+router.get("/profile", checkUserName, (req, res, next) => {
+  let email = req.session.loggedInEmail.email;
+  res.render("profile.hbs", { email });
+});
 
 //ScooterdetailsInformation
 
-router.get('/scooters', (req, res, next) => {
- 
+router.get("/scooters", (req, res, next) => {
   Scooter.find()
-  .then((scooter) => {
-    res.render('scooters/showlist',{scooter})
-  })
-  .catch((error) => {
-    console.log(error)
-  })
-});
-
-router.get('/scooters/create-scooter', (req, res, next) => {
-  res.render('scooters/create-scooter.hbs')
-});
-
-router.post('/scooters/create-scooter',(req, res, next) =>{
-  let id = req.params.id
-  const {sbrandname, smaxspeed, smaxrange, smodelyear, smaxloadcapacity, simg , user} = req.body
-    let newScooter = {
-      brandName : sbrandname,
-      maxSpeed : smaxspeed,
-      maxRange : smaxrange,
-      modelYear : smodelyear,
-      maxLoadCapacity : smaxloadcapacity,
-      image : simg,
-      user : req.session.loggedInEmail._id
-    }
-    Scooter.create(newScooter)
-    .then(() => {
-      res.redirect('/scooters' )
+    .then((scooter) => {
+      res.render("scooters/showlist", { scooter });
     })
     .catch((error) => {
       console.log(error);
     });
 });
 
+router.get("/scooters/create-scooter", (req, res, next) => {
+  res.render("scooters/create-scooter.hbs");
+});
 
-router.get('/scooters/:id/edit', (req, res, next) => {
-  
-  let id = req.params.id
+router.post("/scooters/create-scooter", (req, res, next) => {
+  let id = req.params.id;
+  const {
+    sbrandname,
+    smaxspeed,
+    smaxrange,
+    smodelyear,
+    smaxloadcapacity,
+    simg,
+    user,
+  } = req.body;
+  let newScooter = {
+    brandName: sbrandname,
+    maxSpeed: smaxspeed,
+    maxRange: smaxrange,
+    modelYear: smodelyear,
+    maxLoadCapacity: smaxloadcapacity,
+    image: simg,
+    user: req.session.loggedInEmail._id,
+  };
+  Scooter.create(newScooter)
+    .then(() => {
+      res.redirect("/scooters");
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+});
+
+router.get("/scooters/:id/edit", (req, res, next) => {
+  let id = req.params.id;
 
   Scooter.findById(id)
   .then((scooter) => {
@@ -155,38 +174,42 @@ router.get('/scooters/:id/edit', (req, res, next) => {
   })
 });
 
-router.post('/scooters/:_id/edit', (req, res, next) => {
-  let id = req.params._id
-  const {sbrandname, smaxspeed, smaxrange, smodelyear, smaxloadcapacity, simg} = req.body
-    let editedScooter = {
-      brandName : sbrandname,
-      maxSpeed : smaxspeed,
-      maxRange : smaxrange,
-      modelYear : smodelyear,
-      maxLoadCapacity : smaxloadcapacity,
-      image : simg,
-      user : req.session.loggedInEmail._id
-     
-    }
-   Scooter.findByIdAndUpdate(id, editedScooter, {new: true})
+router.post("/scooters/:_id/edit", (req, res, next) => {
+  let id = req.params._id;
+  const {
+    sbrandname,
+    smaxspeed,
+    smaxrange,
+    smodelyear,
+    smaxloadcapacity,
+    simg,
+  } = req.body;
+  let editedScooter = {
+    brandName: sbrandname,
+    maxSpeed: smaxspeed,
+    maxRange: smaxrange,
+    modelYear: smodelyear,
+    maxLoadCapacity: smaxloadcapacity,
+    image: simg,
+    user: req.session.loggedInEmail._id,
+  };
+  Scooter.findByIdAndUpdate(id, editedScooter, { new: true })
     .then(() => {
-        res.redirect('/scooters')
+      res.redirect("/scooters");
     })
     .catch(() => {
-        console.log('Edit failed')
-    })
+      console.log("Edit failed");
+    });
 });
-
-router.post('/scooters/:id/delete', (req, res, next) => {
-  
-  let id = req.params.id
+router.post("/scooters/:id/delete", (req, res, next) => {
+  let id = req.params.id;
   Scooter.findByIdAndDelete(id)
-      .then(() => {
-          res.redirect('/scooters')
-      })
-      .catch(() => {
-          console.log('Delete failed')
-      })
+    .then(() => {
+      res.redirect("/scooters");
+    })
+    .catch(() => {
+      console.log("Delete failed");
+    });
 });
 
 //GET and POST request to handle the feedback section//
@@ -230,7 +253,8 @@ router.post("/booking-request", (req, res, next) => {
     const bookedScooters = rentRequests.map((rreq) => rreq.scooter);
     console.log(bookedScooters);
     //we grab one in this city which is not present in the 'booked scooters list'
-    Scooter.findOne({ city, _id: { $nin: bookedScooters } }).then((scooter) => {
+
+    Scooter.findOne({ _id: { $nin: bookedScooters } }).then((scooter) => {
       if (!scooter) {
         // Handle scooter not found
         res.render("rider/booking-request", {
@@ -256,6 +280,7 @@ router.post("/booking-request", (req, res, next) => {
 });
 
 router.get("/rider-profile", (req, res) => {
+  res.locals.showFeedback = true
   RentRequest.find({ user: req.session.email._id })
     .then((bookings) => {
       res.render("rider/rider-profile", { bookings });

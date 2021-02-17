@@ -176,3 +176,9 @@ button:hover {
   position: relative;
   float: left;
 }
+
+  .navbar-brand {
+    margin-top: -10%;
+    padding: 0%;
+  }
+  

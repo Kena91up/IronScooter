@@ -171,7 +171,7 @@ router.post("/scooters/create-scooter", (req, res, next) => {
     modelYear: smodelyear,
     maxLoadCapacity: smaxloadcapacity,
     image: simg,
-    user: req.session.email._id,
+    user: req.session.email.id,
   };
   Scooter.create(newScooter)
     .then(() => {
@@ -198,7 +198,7 @@ router.get("/scooters/:id/edit", (req, res, next) => {
 });
 
 router.post("/scooters/:id/edit", (req, res, next) => {
-  let id = req.params._id;
+  let id = req.params.id;
   const {
     sbrandname,
     smaxspeed,
@@ -214,7 +214,7 @@ router.post("/scooters/:id/edit", (req, res, next) => {
     modelYear: smodelyear,
     maxLoadCapacity: smaxloadcapacity,
     image: simg,
-    user: req.session.email._id,
+    user: req.session.email.id,
   };
   Scooter.findByIdAndUpdate(id, editedScooter, { new: true })
     .then(() => {

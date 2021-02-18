@@ -198,7 +198,7 @@ router.get("/scooters/:id/edit", (req, res, next) => {
 });
 
 router.post("/scooters/:id/edit", (req, res, next) => {
-  let id = req.params._id;
+  let id = req.params.id;
   const {
     sbrandname,
     smaxspeed,

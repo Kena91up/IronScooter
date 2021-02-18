@@ -63,7 +63,7 @@ router.get("/company-profile", checkUserName, (req, res, next) => {
   res.locals.showLogout = true;
   res.locals.showLogIn = false;
   res.locals.showSignUp = false;
-  res.render("scooters/company-profile");
+  res.render("scooters/company-profile", {username: req.session.email.username});
 });
 
 //GET signup page
@@ -326,7 +326,7 @@ router.get("/rider-profile", checkUserName, (req, res) => {
   res.locals.showSignUp = false;
   RentRequest.find({ user: req.session.email._id })
     .then((bookings) => {
-      res.render("rider/rider-profile", { bookings });
+      res.render("rider/rider-profile", { bookings, username: req.session.email.username });
     })
     .catch(() => {
       res.render("No requests yet");

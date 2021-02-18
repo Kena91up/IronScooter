@@ -9,28 +9,29 @@
    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
    <link rel="stylesheet" href="/stylesheets/style.css" />
+
 <body>
    <nav>
-      <a class="navbar-brand" href="/"><img src="/images/Logo1.png" alt="" height="160px" width="160px" class="logo" ></a>
-      <ul>
+      <a class="navbar-brand" href="/"></a>
+      <ul class="nav-list">
          {{#if showLogout}}
-          <li id="to-right">
-            <a href="/logout" class="btn-secondary">Log out</a> <span> | </span>
+         <li id="to-right">
+            <a href="/logout" class="btn-secondary">Log out</a>
          </li>
          {{/if}}
-          {{#if showFeedback}}  
+         {{#if showFeedback}}
          <li id="to-right">
-            <a href="/feedback" class="btn-secondary"> Feedback </a> <span> | </span>
+            <a href="/feedback" class="btn-secondary"> Feedback </a>
          </li>
          {{/if}}
          {{#if showLogIn}}
          <li id="to-right">
-            <a href="/login" class="btn-secondary">Log In</a> <span> | </span>
+            <a href="/login" class="btn-secondary">Log In</a>
          </li>
          {{/if}}
          {{#if showSignUp}}
          <li id="to-right">
-            <a href="/signup" class="btn-secondary">Sign Up</a> <span> | </span>
+            <a href="/signup" class="btn-secondary">Sign Up</a>
          </li>
          {{/if}}
       </ul>

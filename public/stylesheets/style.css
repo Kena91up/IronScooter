@@ -1,11 +1,26 @@
 body {
-  background: url("/images/bg1.jpg");
+  background: url("/images/greenoption1");
   background-size: 100%;
   height: 100%;
   width: 100%;
-  margin: 0px;
-  padding: 30px;
+  margin: 0;
+  padding: 0;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+ }
+
+ .heading h1 {
+   display: inline-block;
+   background-color: black;
+   color: white;
+   padding: 0.2em 0.5em 0.2em 0.2em;
+   margin: 1em 0;
+ }
+ .heading h5 {
+  display: inline-block;
+   background-color: black;
+   color: white;
+   padding: 0.2em 0.5em 0.2em 0.4em;
+   margin: 0.5em 0; 
  }
 
 h1 {
@@ -52,11 +67,8 @@ h1 {
     cursor: pointer;
     outline: none;
     border: none;
-    padding: 10px 30px;
-    padding-right: 50px;
     float: right;
     width: 150px;
-    height: 60px;
     font-size: 1.5em;
     margin: 1em;
     border-radius: 7px;
@@ -106,19 +118,19 @@ button:hover {
     width: 100%;
   }
   
-  ul {
+  .nav-list {
+    display: inline;
     border-bottom: 2px solid #43a3e6;
     height: 30px;
     padding: 1em 0;
     list-style-type: none;
   }
   
-  ul li {
+  .nav-list li {
     line-height: 50px;
   }
 
   #to-right {
-    padding: 1em;
     float: right;
   }
   
@@ -182,7 +194,11 @@ button:hover {
 }
 
   .navbar-brand {
-    margin-top: -10%;
+    background-image: url("/images/Logo1.png");
+    background-position: center center;
+    height: 80px;
+    width: 160px;
+    background-size: 160px;
     padding: 0%;
   }
 
@@ -199,13 +215,11 @@ button:hover {
   
   .frame {
     height: 90vh;
-    width: 90vw;
-    margin: 5vh 5vw;
+    width: 100%;
     background-color: #eee;
     background-position: center;
     background-size: cover;
-    
-    animation: image 3s infinite alternate;
+    animation: image 8s infinite alternate;
   }
   
   @keyframes image {

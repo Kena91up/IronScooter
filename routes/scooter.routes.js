@@ -16,7 +16,7 @@ router.get("/login", (req, res, next) => {
 });
 // Handle POST requests to /login
 router.post("/login", (req, res, next) => {
-  const { email, password} = req.body;
+  const { email, password } = req.body;
 
   User.findOne({ email })
     .then((result) => {
@@ -24,9 +24,12 @@ router.post("/login", (req, res, next) => {
       if (result) {
         bcrypt.compare(password, result.password).then((isMatching) => {
           if (isMatching) {
-            req.session.loggedInEmail = result;
-            let role = result.role
-            res.locals.showFeedback = true
+            req.session.email = result;
+            let role = result.role;
+            res.locals.showFeedback = true;
+            res.locals.showLogout = true;
+            res.locals.showLogIn = false;
+            res.locals.showSignUp = false;
             if (role === "company") {
               res.redirect("/company-profile");
             } else {
@@ -47,7 +50,10 @@ router.post("/login", (req, res, next) => {
 //GET request to handle  company profile
 
 router.get("/company-profile", (req, res, next) => {
-  res.locals.showFeedback = true
+  res.locals.showFeedback = true;
+  res.locals.showLogout = true;
+  res.locals.showLogIn = false;
+  res.locals.showSignUp = false;
   res.render("scooters/company-profile");
 });
 
@@ -91,7 +97,13 @@ router.post("/signup", (req, res, next) => {
   //creating a user to mongodb
   User.create({ username, email, password: hash, role, city })
 
-    .then(() => {
+    .then((result) => {
+      req.session.email = result;
+      let role = result.role;
+      res.locals.showFeedback = true;
+      res.locals.showLogout = true;
+      res.locals.showLogIn = false;
+      res.locals.showSignUp = false;
       if (role === "company") {
         res.redirect("/company-profile");
       } else {
@@ -105,7 +117,7 @@ router.post("/signup", (req, res, next) => {
 
 //Middleware to protect routes
 const checkUserName = (req, res, next) => {
-  if (req.session.loggedInEmail) {
+  if (req.session.email) {
     next();
   } else {
     res.redirect("/login");
@@ -113,13 +125,17 @@ const checkUserName = (req, res, next) => {
 };
 
 router.get("/profile", checkUserName, (req, res, next) => {
-  let email = req.session.loggedInEmail.email;
+  let email = req.session.email.email;
   res.render("profile.hbs", { email });
 });
 
 //ScooterdetailsInformation
 
 router.get("/scooters", (req, res, next) => {
+  res.locals.showFeedback = true;
+  res.locals.showLogout = true;
+  res.locals.showLogIn = false;
+  res.locals.showSignUp = false;
   Scooter.find()
     .then((scooter) => {
       res.render("scooters/showlist", { scooter });
@@ -130,6 +146,10 @@ router.get("/scooters", (req, res, next) => {
 });
 
 router.get("/scooters/create-scooter", (req, res, next) => {
+  res.locals.showFeedback = true;
+  res.locals.showLogout = true;
+  res.locals.showLogIn = false;
+  res.locals.showSignUp = false;
   res.render("scooters/create-scooter.hbs");
 });
 
@@ -151,7 +171,7 @@ router.post("/scooters/create-scooter", (req, res, next) => {
     modelYear: smodelyear,
     maxLoadCapacity: smaxloadcapacity,
     image: simg,
-    user: req.session.loggedInEmail._id,
+    user: req.session.email._id,
   };
   Scooter.create(newScooter)
     .then(() => {
@@ -163,18 +183,21 @@ router.post("/scooters/create-scooter", (req, res, next) => {
 });
 
 router.get("/scooters/:id/edit", (req, res, next) => {
+  res.locals.showLogout = true;
+  res.locals.showLogIn = false;
+  res.locals.showSignUp = false;
   let id = req.params.id;
 
   Scooter.findById(id)
-  .then((scooter) => {
-      res.render('scooters/scooter-update', {scooter})
-  })
-  .catch((error) => {
-      console.log(error)
-  })
+    .then((scooter) => {
+      res.render("scooters/scooter-update", { scooter });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 });
 
-router.post("/scooters/:_id/edit", (req, res, next) => {
+router.post("/scooters/:id/edit", (req, res, next) => {
   let id = req.params._id;
   const {
     sbrandname,
@@ -191,7 +214,7 @@ router.post("/scooters/:_id/edit", (req, res, next) => {
     modelYear: smodelyear,
     maxLoadCapacity: smaxloadcapacity,
     image: simg,
-    user: req.session.loggedInEmail._id,
+    user: req.session.email._id,
   };
   Scooter.findByIdAndUpdate(id, editedScooter, { new: true })
     .then(() => {
@@ -215,6 +238,9 @@ router.post("/scooters/:id/delete", (req, res, next) => {
 //GET and POST request to handle the feedback section//
 
 router.get("/feedback", (req, res, next) => {
+  res.locals.showLogout = true;
+  res.locals.showLogIn = false;
+  res.locals.showSignUp = false;
   res.render("feedback.hbs");
 });
 
@@ -238,6 +264,20 @@ router.get("/logout", (req, res) => {
   res.redirect("/");
 });
 
+//Rider
+router.get("/showlist-rider", (req, res, next) => {
+  res.locals.showFeedback = true;
+  res.locals.showLogout = true;
+  res.locals.showLogIn = false;
+  res.locals.showSignUp = false;
+  Scooter.find()
+    .then((scooter) => {
+      res.render("rider/showlist-rider", { scooter });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+});
 //Booking request
 
 router.get("/booking-request", (req, res, next) => {
@@ -263,7 +303,7 @@ router.post("/booking-request", (req, res, next) => {
         return;
       }
       //in the mongodb object, where the user id is, is called email
-      const user = req.session.email._id;
+      const user = req.session.email.id;
       RentRequest.create({ date, timeSlot, city, user, scooter: scooter._id })
         .then((newRent) => {
           console.log(newRent);
@@ -280,7 +320,10 @@ router.post("/booking-request", (req, res, next) => {
 });
 
 router.get("/rider-profile", (req, res) => {
-  res.locals.showFeedback = true
+  res.locals.showFeedback = true;
+  res.locals.showLogout = true;
+  res.locals.showLogIn = false;
+  res.locals.showSignUp = false;
   RentRequest.find({ user: req.session.email._id })
     .then((bookings) => {
       res.render("rider/rider-profile", { bookings });

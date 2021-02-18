@@ -1,20 +1,20 @@
-<h1>List of Scooters</h1>
-<div class="scooterList">
-    {{#each scooter}}
-        <div class="container">
-            <ul class="scooterimg">
-                <li><img src="/images/{{this.image}}" alt="" width="200" height="300" ></li>
-            </ul>
-            <ul class="list">git
-                <li > Brand Name: {{this.brandName}}</li>
-                <li>Max. Speed: {{this.maxSpeed}} </li>
-                <li>Max. Range: {{this.maxRange}} </li>
-                <li>Model Year: {{this.modelYear}} </li>
-                <li>Max.LoadCapacity: {{this.maxLoadCapacity}} </li>
-                <li><a href="/scooters/{{_id }}/edit"><button class="btn-secondary">Edit</button></a><form method="POST" action="/scooters/{{_id}}/delete"><button class="btn-secondary">Delete</li>
-                <li></button></form></li>
-                </ul>
-       <div class="editbtn">
-        </div>
-    </div>
+<h2>List of Scooters</h2> 
+
+{{#each scooter}}
+    <ul class="list">
+        <li> Brand Name: {{this.brandName}}</li>
+        <li>Max. Speed: {{this.maxSpeed}} </li>
+        <li>Max. Range: {{this.maxRange}} </li>
+        <li>Model Year: {{this.modelYear}} </li>
+        <li>Max.LoadCapacity: {{this.maxLoadCapacity}} </li>
+         <li>Picture: <img src="/images/{{this.image}}" alt="" width="200" height="300" ></li>
+    
+     <a href="/booking-request
+">Book Ride</a>
+     </ul>
+     <a href="/scooters/{{_id }}/edit">
+    <button>Edit</button>
+</a>
+<form method="POST" action="/scooters/{{_id}}/delete"><button>Delete</button></form>
+</a>
     {{/each}}

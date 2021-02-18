@@ -197,6 +197,28 @@ button:hover {
     margin-top: -300px;
   }
   
-  .scooterimg{
-   
+  .frame {
+    height: 90vh;
+    width: 90vw;
+    margin: 5vh 5vw;
+    background-color: #eee;
+    background-position: center;
+    background-size: cover;
+    
+    animation: image 3s infinite alternate;
+  }
+  
+  @keyframes image {
+    0% {
+      background-image: url('/images/Neuron-scooter.jpg');
+    }
+    100% {
+      background-image: url('/images/scooter.jpg');
+    }
+    40% {
+      background-image: url('/images/scooter1.jpg');
+    }
+     80% {
+      background-image: url('/images/download.jpeg');
+    }
   }

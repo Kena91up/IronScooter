@@ -16,7 +16,7 @@ router.get("/login", (req, res, next) => {
 });
 // Handle POST requests to /login
 router.post("/login", (req, res, next) => {
-  const { email, password} = req.body;
+  const { email, password } = req.body;
 
   User.findOne({ email })
     .then((result) => {
@@ -24,9 +24,9 @@ router.post("/login", (req, res, next) => {
       if (result) {
         bcrypt.compare(password, result.password).then((isMatching) => {
           if (isMatching) {
-            req.session.loggedInEmail = result;
-            let role = result.role
-            res.locals.showFeedback = true
+            req.session.email = result;
+            let role = result.role;
+            res.locals.showFeedback = true;
             if (role === "company") {
               res.redirect("/company-profile");
             } else {
@@ -47,7 +47,7 @@ router.post("/login", (req, res, next) => {
 //GET request to handle  company profile
 
 router.get("/company-profile", (req, res, next) => {
-  res.locals.showFeedback = true
+  res.locals.showFeedback = true;
   res.render("scooters/company-profile");
 });
 
@@ -91,7 +91,10 @@ router.post("/signup", (req, res, next) => {
   //creating a user to mongodb
   User.create({ username, email, password: hash, role, city })
 
-    .then(() => {
+    .then((result) => {
+      req.session.email = result;
+      let role = result.role;
+      res.locals.showFeedback = true;
       if (role === "company") {
         res.redirect("/company-profile");
       } else {
@@ -105,7 +108,7 @@ router.post("/signup", (req, res, next) => {
 
 //Middleware to protect routes
 const checkUserName = (req, res, next) => {
-  if (req.session.loggedInEmail) {
+  if (req.session.email) {
     next();
   } else {
     res.redirect("/login");
@@ -113,7 +116,7 @@ const checkUserName = (req, res, next) => {
 };
 
 router.get("/profile", checkUserName, (req, res, next) => {
-  let email = req.session.loggedInEmail.email;
+  let email = req.session.email.email;
   res.render("profile.hbs", { email });
 });
 
@@ -151,7 +154,7 @@ router.post("/scooters/create-scooter", (req, res, next) => {
     modelYear: smodelyear,
     maxLoadCapacity: smaxloadcapacity,
     image: simg,
-    user: req.session.loggedInEmail._id,
+    user: req.session.email._id,
   };
   Scooter.create(newScooter)
     .then(() => {
@@ -166,12 +169,12 @@ router.get("/scooters/:id/edit", (req, res, next) => {
   let id = req.params.id;
 
   Scooter.findById(id)
-  .then((scooter) => {
-      res.render('scooters/scooter-update', {scooter})
-  })
-  .catch((error) => {
-      console.log(error)
-  })
+    .then((scooter) => {
+      res.render("scooters/scooter-update", { scooter });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 });
 
 router.post("/scooters/:_id/edit", (req, res, next) => {
@@ -191,7 +194,7 @@ router.post("/scooters/:_id/edit", (req, res, next) => {
     modelYear: smodelyear,
     maxLoadCapacity: smaxloadcapacity,
     image: simg,
-    user: req.session.loggedInEmail._id,
+    user: req.session.email._id,
   };
   Scooter.findByIdAndUpdate(id, editedScooter, { new: true })
     .then(() => {
@@ -280,7 +283,7 @@ router.post("/booking-request", (req, res, next) => {
 });
 
 router.get("/rider-profile", (req, res) => {
-  res.locals.showFeedback = true
+  res.locals.showFeedback = true;
   RentRequest.find({ user: req.session.email._id })
     .then((bookings) => {
       res.render("rider/rider-profile", { bookings });

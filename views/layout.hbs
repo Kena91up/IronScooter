@@ -13,17 +13,26 @@
    <nav>
       <a class="navbar-brand" href="/"><img src="/images/Logo1.png" alt="" height="160px" width="160px" class="logo" ></a>
       <ul>
+         {{#if showLogout}}
+          <li id="to-right">
+            <a href="/logout" class="btn-secondary">Log out</a> <span> | </span>
+         </li>
+         {{/if}}
           {{#if showFeedback}}  
          <li id="to-right">
             <a href="/feedback" class="btn-secondary"> Feedback </a> <span> | </span>
          </li>
          {{/if}}
+         {{#if showLogIn}}
          <li id="to-right">
             <a href="/login" class="btn-secondary">Log In</a> <span> | </span>
          </li>
+         {{/if}}
+         {{#if showSignUp}}
          <li id="to-right">
             <a href="/signup" class="btn-secondary">Sign Up</a> <span> | </span>
          </li>
+         {{/if}}
       </ul>
    </nav>
    {{{body}}}

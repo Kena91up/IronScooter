@@ -1,5 +1,5 @@
 body {
-  background: url("/images/greenoption1");
+  background: url("/images/backgrp.jpg");
   background-size: 100%;
   height: 100%;
   width: 100%;
@@ -35,7 +35,10 @@ h2 {
 a {
   color: #00b7ff;
   text-decoration: none;
-  font-size: 1.5em;
+  font-size: 1.1em;
+}
+a, button, .edit-delete {
+  width: 150px;
 }
 
 form {
@@ -77,6 +80,16 @@ form button {
   box-shadow: -7px 10px 16px -5px rgba(0, 0, 0, 0.35);
   text-align: center;
 }
+.edit-delete{
+  color: rgb(83, 70, 44);
+  background: #8fb980;
+  font-size: 1.5em;
+  border-radius: 7px;
+  font-family: "Potta One";
+  border: none;
+  transition: all 0.5s ease-in-out;
+  box-shadow: -7px 10px 16px -5px rgba(0, 0, 0, 0.35);
+}
 .submit-btn {
   color: rgb(83, 70, 44);
   background: #8fb980;
@@ -93,10 +106,17 @@ button:hover, .nav-btn:hover {
   color:white;
   transition: 0.3s ease background;
 }
+
+.buttons {
+  padding-top: 30px;
+}
+.scooter-img {
+  padding-top: 25px;
+}
 .list {
   height: 100%;
   margin: 1em 1em;
-  font-size: 1em;
+  font-size: 1.4em;
   flex-wrap: wrap;
   text-align: center;
   border: 2px solid rgb(211,211,211);
@@ -106,11 +126,7 @@ button:hover, .nav-btn:hover {
   mask-repeat: repeat;
   list-style-type: none;
 }
-/* .example {
-  width: 100%;
-  height: 100%;
-  background: url("/images/Neuron-scooter.jpg") bottom center no-repeat , url("/images/scooter.jpg")repeat;
-} */
+
 .error {
   background: #f02b63;
   box-sizing: border-box;
@@ -232,13 +248,8 @@ button:hover, .nav-btn:hover {
 
 .container-scooter {
 flex-basis: 50%;
-}
-
-.editbtn {
-  position: relative;
-  float: right;
-  margin-right: 500px;
-  margin-top: -300px;
+border-radius: 20px;
+margin-bottom: 20px;
 }
 
 .frame {
